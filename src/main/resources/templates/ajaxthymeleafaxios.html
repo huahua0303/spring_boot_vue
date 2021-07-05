@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ajax_axios异步刷新</title>
+    <script th:src="@{/js/axios.min.js}"></script>
+    <script th:src="@{/js/vuejs-2.5.16.js}"></script>
+</head>
+<body>
+<div id="app">
+    <button @click="ax_ajax">点击开始axios的get异步刷新</button><br>
+    编号：{{id}}<br>
+    姓名：{{name}}<br>
+    性别：{{sex}}<br>
+    年龄：{{age}}<br>
+</div>
+<div id="app2">
+    <button @click="ax_ajax">点击开始axios的post异步刷新</button><br>
+    编号：{{id}}<br>
+    姓名：{{name}}<br>
+    性别：{{sex}}<br>
+    年龄：{{age}}<br>
+</div>
+</body>
+<script type="application/javascript">
+    var vm = new Vue({
+        el:"#app",
+        data:{
+            id:"",
+            name:"",
+            sex:"",
+            age:""
+        },
+        methods:{
+
+           ax_ajax(){
+               /*
+                    在请求执行后，执行回调函数中得类容，回调函数处于其他函数的内部，this不会与任何的对象绑定（以this。data的形式引入引入数据就引用不到）
+                    将指向vue对象的this赋值给外部方法定义的属性，然后在内部方法中使用该属性即可
+               */
+               var _this = this;
+               axios({
+                    method:"get",
+                    url:"/ajaxshow",
+                   params:{"name":"666"},
+               }).then(function (canshu) {
+                   /*
+                        注意：
+                                之前使用vue-resource插件 对于值得处理 返回.body得操作
+                                这次使用axios插件，同样需要对值进行处理 返回.data类型
+                    */
+                    // alert(canshu.data.id);
+                   _this.id=canshu.data.id;
+                   _this.name=canshu.data.name;
+                   _this.sex=canshu.data.sex;
+                   _this.age=canshu.data.age;
+               })
+           }
+        }
+    })
+
+    var vm = new Vue({
+        el:"#app2",
+        data: {
+            id:"",
+            name:"",
+            sex:"",
+            age:"",
+        },
+        methods: {
+            ax_ajax(){
+                var _this1 = this;
+                axios({
+                    method: "post",
+                    url: "/ajaxpost",
+                    params: {"name":"123"},
+                }).then(function (canshu) {
+                    _this1.id = canshu.data.id;
+                    _this1.name = canshu.data.name;
+                    _this1.sex = canshu.data.sex;
+                    _this1.age = canshu.data.age;
+                })
+            }
+        }
+    })
+</script>
+</html>

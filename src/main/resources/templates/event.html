@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>事件修饰符页面</title>
+    <script src="js/vuejs-2.5.16.js"></script>
+</head>
+<body>
+<div id="app">
+    <!--
+     .capture 获取触发机制  没有加冒泡的情况下是点击内部 先触发内部  再 触发外部
+     加了.capture之后 加在哪个事件上面优先触发哪个事件
+     .self阻止自身冒泡
+  -->
+    <div style="width: 200px;height: 200px;background-color: red" @click="fun1">
+        <div style="width: 100px;height: 100px;background-color: blue" @click.stop="fun2">
+            <div style="width: 50px;height: 50px;background-color: white" @click="fun3"></div>
+        </div>
+    </div>
+
+    <a href="http://www.baidu.com" @click="fun1">传统方式跳转百度，我没加阻止默认行为</a><br>
+    <a th:href="@{http://www.baidu.com}" @click.prevent="fun1">我是thymeleaf跳转百度</a><br>
+    <a th:href="@{http://www.baidu.com}" @click.prevent.once="fun1">我是thymeleaf跳转百度，我添加了.once方法</a><!--第一次触发阻止默认行为  第二次则不触发-->
+</div>
+</body>
+<script type="application/javascript">
+    var vm = new Vue({
+        el : "#app",
+        methods : {
+            fun1(){
+                alert("我是外部")
+            },
+            fun2(){
+                alert("我是中间")
+            },
+            fun3(){
+                alert("我是内部")
+            }
+        }
+    })
+</script>
+</html>

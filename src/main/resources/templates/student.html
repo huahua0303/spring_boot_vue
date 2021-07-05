@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学生管理操作_vue</title>
+    <script src="../static/js/vuejs-2.5.16.js"></script>
+    <style type="text/css">
+        .top{
+            font-size: 40px;
+            color: red;
+            font-family: "楷体";
+        }
+        .topcenter{
+            text-align: center;
+        }
+        td{
+            text-align: center;
+            height: 40px;
+            font-family: "楷体";
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div :class="sytles">学生系统操作</div>
+    <hr />
+    <!--
+        序列号  id  名字  性别
+    -->
+    学生编号：<input type="text" v-model="stu_id">
+    学生姓名：<input type="text" v-model="stu_name">
+    学生性别：<input type="text" v-model="stu_sex">
+    学生年龄：<input type="text" v-model="stu_age">
+    <button value="addstudent" @click="add">添加</button>
+    搜索：<input type="text" v-model="selname" @keyup="sel">
+    <button value="sel" @click="sel">搜索</button>
+    <br>
+    <br>
+    <table width="100%" border="1px" cellpadding="0px" cellspacing="0px">
+        <tr>
+            <td>序列号</td>
+            <td>学生编号</td>
+            <td>学生姓名</td>
+            <td>学生性别</td>
+            <td>学生年龄</td>
+            <td>操作</td>
+        </tr>
+        <tr v-for="(stu,i) in stu_list" :key="stu.id">
+            <td>{{i+1}}</td>
+            <td>{{stu.id}}</td>
+            <td>{{stu.name}}</td>
+            <td>{{stu.sex}}</td>
+            <td>{{stu.age}}</td>
+            <td>
+                <a href="javascript:void(0)" @click="del(stu.id)">删除</a>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+<script type="application/javascript">
+    var vm = new Vue({
+        el:"#app",
+        data : {
+            sytles : {"top":true,"topcenter":true},
+            stu_id : "",
+            stu_name : "",
+            stu_sex : "",
+            stu_age : "",
+            selname :"",
+            stu_list:[
+                {id:"1001",name:"张三",sex:"男",age:"20"},
+                {id:"1002",name:"李四",sex:"女",age:"21"},
+                {id:"1003",name:"王五",sex:"男",age:"23"},
+            ],
+            newSelname:[
+                {id:"1001",name:"张三",sex:"男",age:"20"},
+                {id:"1002",name:"李四",sex:"女",age:"21"},
+                {id:"1003",name:"王五",sex:"男",age:"23"},
+            ]
+        },
+        methods:{
+            //添加学生信息的方法
+            add(){
+                var stu_s = {id:this.stu_id,name:this.stu_name,sex:this.stu_sex,age:this.stu_age};
+                this.stu_list.push(stu_s);
+            },
+            //删除对应学生信息的方法
+            del(id){
+                for (var i = 0;i <= this.stu_list.length;i++){
+                    //讲该条记录从stu_list中移除
+                   if (this.stu_list[i].id == id){
+                       this.stu_list.splice(i,1);
+                   }
+                }
+            },
+            //搜索的方法
+            sel(){
+                /*
+                     实现步骤
+                        1.将stu_list复制一份出来
+                        2.将stu_list清空
+                        3.遍历集合  判断名字是否存在 indexOf 看当前名字是否存在输入的值  存在则输出下标  下标大于等于0则表示存在
+                        4.在将对应的信息放入到stu_list里面遍历出来（因为我们之前的页面遍历的名字时stu_list）
+                 */
+                // this.newSelname = this.stu_list;
+                this.stu_list = [];
+                for (var j =0;j <= this.newSelname.length; j++){
+                    if (this.newSelname[j].name.indexOf(this.selname) >= 0){
+                        this.stu_list.push(this.newSelname[j]);
+                    }
+                }
+            }
+        }
+    })
+</script>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>file</title>
+  <script src="../static/js/vuejs-2.5.16.js"></script>
+</head>
+<body>
+<div id="app">
+  <!--
+    过滤器的用法就是在需要过滤的数据后面添加 一个 |  在加上过滤器名字
+  -->
+  <p>{{str | ucase | stringadd}}</p>
+  <p>{{times | time}}</p>
+  <p v-for="(sl,i) in showlist" :key="sl.id">
+    {{i+1}}--{{sl.name}}--{{sl.price | count}}
+  </p>
+</div>
+</body>
+<script type="application/javascript">
+  /*
+      自定义全局过滤器
+       语法：Vue。filter
+       参数一：为该过滤器的名称
+       参数二:函数：指定过滤器的行为
+        函数参数：我们要操作的数据
+              可以连续使用多个过滤器
+                {{ str | 过滤器1 | 过滤器2}}
+   */
+  Vue.filter("ucase",function (value){
+    //将需要操作的数据转化为大写
+    value = value.toUpperCase();
+
+    return value;
+  })
+  //修改时间格式的过滤器
+  Vue.filter("time",function (time){
+    var y = time.getFullYear();
+    //表示 当前月份加 一个月  如果月份不足两个月则在前面加上一个0
+    var m = (time.getMonth()+1+"").toString().padStart(2,"0");
+    var d = (time.getDay()+16).toString().padStart(2,"0");
+    var h = time.getHours().toString().padStart(2,"0");
+    var mm = time.getMinutes().toString().padStart(2,"0");
+    var s = time.getSeconds().toString().padStart(2,"0");
+
+    return `${y}-${m}-${d} ${h}:${mm}:${s}`;
+  })
+  //打折的方法
+  Vue.filter("count",function (price){
+
+    return parseInt(price)*0.8;
+  })
+  var vm = new Vue({
+    el:"#app",
+    data:{
+      str:"vue",
+      times:new Date(),
+      showlist:[
+        {id:"1001",name:"苹果",price:"20"},
+        {id:"1002",name:"香蕉",price:"25"},
+        {id:"1003",name:"梨子",price:"29"},
+      ]
+    },
+    filters:{
+      stringadd : function (value){
+
+        return value+"123";
+      }
+    }
+  })
+</script>
+</html>

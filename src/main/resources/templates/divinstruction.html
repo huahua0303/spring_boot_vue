@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义指令</title>
+    <script src="../static/js/vuejs-2.5.16.js"></script>
+</head>
+<body>
+<div id="app">
+    <!--第二种方式里面需要添加 '' 单引号 不加则表示去data里面找-->
+    请输入<input type="text" v-dt1="'green'">
+</div>
+</body>
+<script type="application/javascript">
+    /*
+            directive提供两个参数
+            参数一：关于指令的名称，在指令前面名称不需要添加“v-”前缀，但是在标签中用的时候需要添加“v-”前缀
+            参数二：json对象， 在这个对象身上，有一些指令相关的函数，这些函数可以在特定的阶段，执行相关操作（钩子函数）
+            使用bind函数操作元素的样式（css）
+            使用inserted函数控制元素的行为(js)
+     */
+    //全局指令
+    Vue.directive("dt1",{
+        //bind：每当指令绑定到该元素上面的时候，都会立即执行bind函数，该函数只会执行一次
+        bind:function (el,binding){
+            //el.style.color="red";  第一种方式直接改变颜色
+
+            //第二种方式  获取之后  拿到需要修改的颜色  然后修改对应的颜色
+            el.style.color = binding.value;
+        },
+        //inserted函数：表示元素插入到dom中的时候，会执行函数，该函数只会执行一次
+        inserted:function (el){
+            el.focus();
+        },
+        //updated函数：当vuejs中的元素更新的时候，会触发该函数，元素是可以随时更新的，所以该函数也可以触发多次
+        updated:function (el){
+
+        }
+    })
+    var vm = new Vue({
+        el : "#app",
+        //私有指令
+        directives:{
+            mydt:{
+                bind:function (el){
+                    el.style.color = "red";
+                }
+            }
+        }
+    })
+</script>
+</html>

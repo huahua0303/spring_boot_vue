@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>我的第一个vue</title>
+    <!--引入vue框架-->
+<!--    <script th:src="@{../static/js/vuejs-2.5.16.js}" type="application/javascript"></script>-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/vue" type="application/javascript"></script>-->
+    <script src="../static/js/vue.min.js" type="application/javascript"></script>
+    <!--解决页面闪烁的情况 v-cloak-->
+    <style>
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <!--
+        v-text 根 v-html 可以替换插值表达式 {{}}
+        插值表达式可以根原有的页面上的值进行结合
+        v-html  v-text不能根原有页面上的值进行结合  先清空后赋予  这个也不会出现页面闪烁的现象
+        v-html  可以显示出标签中样式  会对标签进行解析
+        v-bind 简写  ：
+        v-on   简写  @
+    -->
+    <p v-cloak>-------------{{name1}}-----------------------</p>
+    <p v-cloak>--------------{{name2}}--------------</p>
+    <p v-html="name1">----------------------</p>
+    <p v-text="name2">----------------------</p>
+
+    <input type="text" :value="name1">
+    <input type="submit" value="按钮" :title="name1+'我是拼接的'"><!--拼接--><br>
+    <input type="submit" value="点击" @click="fun">
+</div>
+</body>
+<script>
+    var vm = new Vue({//我们new出来的这个vm对象。就是页面中对于模型和视图（数据和元素）的整体调度者
+        el : "#app",//el表示我们要指定哪个标签进行vuejs操作  id标签就是#  class就是.
+        data : {
+            "name1":"<font color='red'>我是第一个</font>",
+            "name2":"<font color='red'>我是第二个</font>",
+        },
+
+        methods : {
+            fun(){
+                alert(123)
+            }
+        }
+    })
+</script>
+</html>

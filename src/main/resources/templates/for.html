@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>for遍历</title>
+    <script src="../static/js/vuejs-2.5.16.js"></script>
+</head>
+<body>
+<div id="app">
+    <p v-for="(cy,i) in crtyList" :key="cy.id">
+        {{i}}----{{cy.id}}---------{{cy.ctry}}
+    </p>
+    <br>
+    <p v-for="(value,key,i) in crtyfor">
+        {{i}}----{{key}}---------{{value}}
+    </p>
+    <br>
+    <p v-for="count in 10">
+        {{count}}
+    </p>
+
+</div>
+</body>
+<script type="application/javascript">
+    var vm = new Vue({
+        el : "#app",
+        data : {
+            crtyList : [
+                {id:"1001",ctry:"长沙"},
+                {id:"1002",ctry:"南昌"},
+                {id:"1003",ctry:"深圳"}
+            ],
+            crtyfor : {
+                id : "001",cname : "北京",
+            }
+        }
+    })
+</script>
+</html>

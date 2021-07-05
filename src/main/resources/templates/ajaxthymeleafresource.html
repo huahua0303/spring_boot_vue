@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>vue_ajax异步</title>
+    <script th:src="@{/js/vuejs-2.5.16.js}"></script>
+    <script th:src="@{/js/vue-resource.min.js}"></script>
+</head>
+<body>
+<div id="app">
+    <button @click="clistudentget">点击获得学生信息Get方式</button>
+    <br>
+    学生编号：{{id}}<br>
+    学生姓名：{{name}}<br>
+    学生性别：{{sex}}<br>
+    学生年龄：{{age}}<br>
+    <br>
+</div>
+<div id="app2">
+    <button @click="clistudentpost">点击获得学生信息Post方式</button><br>
+    学生编号：{{id}}<br>
+    学生姓名：{{name}}<br>
+    学生性别：{{sex}}<br>
+    学生年龄：{{age}}<br>
+</div>
+<script type="application/javascript">
+    var vm = new Vue({
+        el:"#app",
+        data:{
+            id:"",
+            name:"",
+            sex:"",
+            age:""
+        },
+        methods:{
+            //ajax异步请求的方法  get方式
+            //this.$http.get("路径"，{参数}).then((回调函数)function (data){})
+            //对于参数的传递，get请求和post请求的参数传递的语法是不同的，这一点有别于其他前端语言
+            //对于get请求，必须是在路径的后面以url?key=value&key1=value1这种传统的方式传递
+            clistudentget(){
+                this.$http.get("/ajaxshow?name=张三").then(function (data){
+                    data = data.body;
+
+                    this.id = data.id;
+                    this.name = data.name;
+                    this.sex = data.sex;
+                    this.age = data.age;
+                })
+            }
+        }
+    })
+
+    var vm2 = new Vue({
+        el:"#app2",
+        data:{
+            id:"",
+            name:"",
+            sex:"",
+            age:""
+        },
+        methods: {
+            clistudentpost(){
+                //post请求参数传递的方式，是以请求体的方式来传递，所以不能将参数挂在url的后面
+                /*
+                        手动发起post请求，默认没有表单格式，所以有些服务器就处理不了
+                        我们需要通过post方法的第三个参数，{emulateJSON:true}设置，提交的内容类型就设置为了普通表单的格式传递参数
+                 */
+                this.$http.post("/ajaxpost",{"name":"woshimei"},{emulateJSON:true}).then(function (data){
+                    data = data.body;
+
+                    this.id = data.id;
+                    this.name = data.name;
+                    this.sex = data.sex;
+                    this.age = data.age;
+                })
+            }
+        }
+    })
+</script>
+</body>
+</html>

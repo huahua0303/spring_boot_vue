@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>计算机</title>
+    <script src="../static/js/vuejs-2.5.16.js"></script>
+    <style type="text/css">
+        .yanse{
+            color: aqua;
+        }
+        .bgyanse{
+            background-color: beige;
+        }
+        .maxmin{
+            font-size: 90px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <!--注意看此处加入了三元运算符-->
+    <p :class="['yanse',falg?'bgyanse':'',{'maxmin':falg}]">计算机，请输入您需要计算的数字哦~</p>
+    <p :class="mystyle">我是一种新的方式，这种方式只能写true 跟 false</p>
+    <p :style="mystyle1">我又一种表达方式</p>
+    <input type="text" v-model="one">
+    <select v-model="fuhao">
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+        <option value="/">/</option>
+    </select>
+    <input type="text" v-model="two">
+    <input type="submit" value="=" @click="jisuan">
+    <input type="text" v-model="jieguo">
+</div>
+</body>
+<script type="application/javascript">
+    var vm = new Vue({
+        el : "#app",
+        data : {
+            one : "0",
+            two : "0",
+            fuhao : "+",
+            jieguo : "0",
+            falg : false,
+            mystyle : {'yanse':true,'bgyanse':true,'maxmin':true},
+            mystyle1 : {color : "red","background-Color":"blue"}
+        },
+        methods : {
+            jisuan(){
+                if (this.fuhao == "+"){
+                    this.jieguo = parseInt(this.one) + parseInt(this.two);
+                }else if (this.fuhao == "-"){
+                    this.jieguo = parseInt(this.one) - parseInt(this.two);
+                }else if (this.fuhao == "*"){
+                    this.jieguo = parseInt(this.one) * parseInt(this.two);
+                }else {
+                    this.jieguo = parseInt(this.one) / parseInt(this.two);
+                }
+            }
+        }
+    })
+</script>
+</html>

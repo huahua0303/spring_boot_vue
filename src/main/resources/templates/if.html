@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>if_vue</title>
+    <script src="../static/js/vuejs-2.5.16.js"></script>
+</head>
+<body>
+<div id="app">
+    <!--
+        两种方法都可以实现
+            v-if
+            v-show
+                二者实现的效果一致
+            不同点  false  的情况下   v-if是没有该元素    v-show则是隐藏该元素
+    -->
+    <p v-if="true">
+        我是true我显示了，我下面是false你看他现不显示
+    </p>
+    <p v-if="false">
+        我是false你看我显示了嘛
+    </p>
+</div>
+</body>
+<script type="application/javascript">
+    var vm = new Vue({
+        el : "#app",
+
+    })
+</script>
+</html>
